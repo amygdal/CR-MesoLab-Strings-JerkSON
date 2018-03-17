@@ -28,9 +28,12 @@ public class ItemParserTest {
 
     @Test
     public void parseRawDataIntoStringArrayTest(){
+
         Integer expectedArraySize = 3;
         ArrayList<String> items = itemParser.parseRawDataIntoStringArray(rawMultipleItems);
         Integer actualArraySize = items.size();
+        System.out.println(items);
+
         assertEquals(expectedArraySize, actualArraySize);
     }
 
