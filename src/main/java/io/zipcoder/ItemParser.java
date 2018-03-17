@@ -14,6 +14,10 @@ public class ItemParser {
         return response;
     }
 
+    public String rawItemToLowerCase(String input){
+        return input.toLowerCase();
+    }
+
     public Item parseStringIntoItem(String rawItem) throws ItemParseException {
 
         ArrayList<String> rawItemKeyValuePairs = findKeyValuePairsInRawItemData(rawItem);
@@ -21,20 +25,34 @@ public class ItemParser {
 
         for (String element : rawItemKeyValuePairs) {
             String[] pair = element.split(":");
-            pairsMap.put(pair[0], pair[1]);
+
+            //do this line of code:
+            try{
+                pairsMap.put(pair[0], pair[1]);
+            } catch (Exception e) {
+                throw new ItemParseException();
+            }
+
+
         }
 
-        double priceToDouble = Double.parseDouble(pairsMap.get("price");
 
-        Item ourItem = new Item(pairsMap.get("name"), priceToDouble, pairsMap.get("type"),
-                pairsMap.get("expiration"));
+        try{
+            double priceToDouble = Double.parseDouble(pairsMap.get("price"));
+            Item ourItem = new Item(pairsMap.get("name"), priceToDouble, pairsMap.get("type"),
+                    pairsMap.get("expiration"));
 
-        return ourItem;
+            return ourItem;
+
+        }catch (Exception e){
+            throw new ItemParseException();
+
+        }
 
     }
 
     public ArrayList<String> findKeyValuePairsInRawItemData(String rawItem) {
-        String stringPattern = "[;|^]";
+        String stringPattern = "[;|^|@|!|*|%]";
         ArrayList<String> response = splitStringWithRegexPattern(stringPattern, rawItem);
         return response;
     }

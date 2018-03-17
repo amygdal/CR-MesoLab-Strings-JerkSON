@@ -3,6 +3,7 @@ package io.zipcoder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class ItemParserTest {
 
     private String rawSingleItemIrregularSeperatorSample = "naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
 
-    private String rawBrokenSingleItem =    "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##";
+    private String rawBrokenSingleItem =    "naMe:Milk;price:3.23;type:;expiration:1/25/2016##";
 
     private String rawMultipleItems = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##"
                                       +"naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##"
@@ -23,7 +24,21 @@ public class ItemParserTest {
 
     @Before
     public void setUp(){
+
         itemParser = new ItemParser();
+    }
+
+    @Test
+    public void lowerCaseTest(){
+
+        //Given
+        String testString = "na#mEG.D84";
+        //When
+        String expected = "na#meg.d84";
+        String actual = itemParser.rawItemToLowerCase(testString);
+        //Then
+
+        Assert.assertEquals(expected,actual);
     }
 
     @Test
